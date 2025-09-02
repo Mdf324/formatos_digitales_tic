@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formatos Digitales - TIC</title>
     <style>
         :root {
@@ -9,12 +10,23 @@
             --accent-color: #e74c3c;
             --dark-color: #2c3e50;
             --light-color: #ecf0f1;
+            
+            /* Colores para cada categoría */
+            --image-color: #3498db;
+            --document-color: #9b59b6;
+            --audio-color: #e67e22;
+            --video-color: #2ecc71;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #3498db, #8e44ad);
             margin: 0;
-            padding: 0;
+            padding: 20px;
             color: #333;
             min-height: 100vh;
             display: flex;
@@ -23,9 +35,9 @@
         }
         .container {
             background-color: white;
-            width: 90%;
-            max-width: 900px;
-            margin: 40px auto;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
@@ -33,54 +45,93 @@
         .slide {
             display: none;
             padding: 30px;
-            min-height: 400px;
+            min-height: 500px;
         }
         .slide.active {
             display: block;
         }
         h1, h2 {
-            color: var(--dark-color);
             text-align: center;
         }
         h1 {
             color: var(--main-color);
-            font-size: 2.5em;
+            font-size: 2.2em;
             margin-bottom: 20px;
         }
         h2 {
             border-bottom: 2px solid var(--main-color);
             padding-bottom: 10px;
             margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--dark-color);
         }
         .content {
-            font-size: 1.2em;
+            font-size: 1.1em;
             line-height: 1.6;
         }
         .format-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 20px;
             margin-top: 20px;
         }
         .format-card {
             background: var(--light-color);
             padding: 15px;
             border-radius: 8px;
-            border-left: 4px solid var(--main-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .format-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .format-card.image-format {
+            border-left: 4px solid var(--image-color);
+        }
+        .format-card.document-format {
+            border-left: 4px solid var(--document-color);
+        }
+        .format-card.audio-format {
+            border-left: 4px solid var(--audio-color);
+        }
+        .format-card.video-format {
+            border-left: 4px solid var(--video-color);
         }
         .format-card h3 {
             margin-top: 0;
-            color: var(--dark-color);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .image-format h3 {
+            color: var(--image-color);
+        }
+        .document-format h3 {
+            color: var(--document-color);
+        }
+        .audio-format h3 {
+            color: var(--audio-color);
+        }
+        .video-format h3 {
+            color: var(--video-color);
+        }
+        .format-card p {
+            margin-bottom: 10px;
+            flex-grow: 0;
         }
         .pros-cons {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             margin-top: 10px;
+            flex-grow: 1;
         }
         .pros, .cons {
-            width: 48%;
             padding: 10px;
             border-radius: 5px;
+            margin-bottom: 10px;
         }
         .pros {
             background-color: #d4edda;
@@ -124,7 +175,7 @@
             padding: 10px 20px;
             border-radius: 50px;
             font-weight: bold;
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
         .tip {
             background-color: #fff3cd;
@@ -163,7 +214,7 @@
         #quiz-results {
             text-align: center;
             padding: 20px;
-            font-size: 1.5em;
+            font-size: 1.3em;
             margin-top: 20px;
             border-radius: 8px;
             display: none;
@@ -187,16 +238,21 @@
             font-size: 1.1em;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .format-grid {
                 grid-template-columns: 1fr;
             }
-            .pros-cons {
-                flex-direction: column;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
             }
-            .pros, .cons {
-                width: 100%;
-                margin-bottom: 10px;
+            .slide {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
             }
         }
     </style>
@@ -229,7 +285,7 @@
             <h2>Formatos de Imagen</h2>
             <div class="content">
                 <div class="format-grid">
-                    <div class="format-card">
+                    <div class="format-card image-format">
                         <h3>PNG</h3>
                         <p><strong>Ideal para:</strong> gráficos, logos, transparencias</p>
                         <div class="pros-cons">
@@ -249,7 +305,7 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card image-format">
                         <h3>JPG/JPEG</h3>
                         <p><strong>Ideal para:</strong> fotografías</p>
                         <div class="pros-cons">
@@ -269,7 +325,7 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card image-format">
                         <h3>GIF</h3>
                         <p><strong>Ideal para:</strong> animaciones simples</p>
                         <div class="pros-cons">
@@ -289,6 +345,26 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="format-card image-format">
+                        <h3>WEBP</h3>
+                        <p><strong>Ideal para:</strong> web moderna</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <strong>Ventajas</strong>
+                                <ul>
+                                    <li>Mejor compresión que JPG/PNG</li>
+                                    <li>Soporta animación y transparencia</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <strong>Desventajas</strong>
+                                <ul>
+                                    <li>Compatibilidad limitada en navegadores antiguos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -297,7 +373,7 @@
             <h2>Formatos de Documentos</h2>
             <div class="content">
                 <div class="format-grid">
-                    <div class="format-card">
+                    <div class="format-card document-format">
                         <h3>PDF</h3>
                         <p><strong>Ideal para:</strong> documentos para compartir o imprimir</p>
                         <div class="pros-cons">
@@ -317,7 +393,7 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card document-format">
                         <h3>DOC/DOCX</h3>
                         <p><strong>Ideal para:</strong> documentos editables (Word)</p>
                         <div class="pros-cons">
@@ -331,13 +407,13 @@
                             <div class="cons">
                                 <strong>Desventajas</strong>
                                 <ul>
-                                    <li>Formato puede variar</li>
+                                    <li>Formato puede verse diferente en otros dispositivos</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card document-format">
                         <h3>TXT</h3>
                         <p><strong>Ideal para:</strong> texto simple sin formato</p>
                         <div class="pros-cons">
@@ -351,7 +427,28 @@
                             <div class="cons">
                                 <strong>Desventajas</strong>
                                 <ul>
-                                    <li>Sin formato (negritas, colores)</li>
+                                    <li>Sin formato (negritas, colores, etc.)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="format-card document-format">
+                        <h3>XLS/XLSX</h3>
+                        <p><strong>Ideal para:</strong> hojas de cálculo (Excel)</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <strong>Ventajas</strong>
+                                <ul>
+                                    <li>Manejo eficiente de datos numéricos</li>
+                                    <li>Fórmulas y gráficos integrados</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <strong>Desventajas</strong>
+                                <ul>
+                                    <li>Requiere software específico para editar</li>
+                                    <li>Archivos pueden ser complejos de usar</li>
                                 </ul>
                             </div>
                         </div>
@@ -364,7 +461,7 @@
             <h2>Formatos de Audio</h2>
             <div class="content">
                 <div class="format-grid">
-                    <div class="format-card">
+                    <div class="format-card audio-format">
                         <h3>MP3</h3>
                         <p><strong>Ideal para:</strong> música en dispositivos portátiles</p>
                         <div class="pros-cons">
@@ -384,9 +481,9 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card audio-format">
                         <h3>WAV</h3>
-                        <p><strong>Ideal para:</strong> audio de alta calidad, edición</p>
+                        <p><strong>Ideal para:</strong> audio de alta calidad, edición profesional</p>
                         <div class="pros-cons">
                             <div class="pros">
                                 <strong>Ventajas</strong>
@@ -404,7 +501,7 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card audio-format">
                         <h3>M4A</h3>
                         <p><strong>Ideal para:</strong> audio en dispositivos Apple</p>
                         <div class="pros-cons">
@@ -423,6 +520,27 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="format-card audio-format">
+                        <h3>FLAC</h3>
+                        <p><strong>Ideal para:</strong> audio de alta fidelidad sin pérdidas</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <strong>Ventajas</strong>
+                                <ul>
+                                    <li>Calidad de audio sin pérdidas</li>
+                                    <li>Mejor que MP3 y similar a WAV</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <strong>Desventajas</strong>
+                                <ul>
+                                    <li>Archivos más grandes que MP3</li>
+                                    <li>No compatible con todos los dispositivos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -431,7 +549,7 @@
             <h2>Formatos de Video</h2>
             <div class="content">
                 <div class="format-grid">
-                    <div class="format-card">
+                    <div class="format-card video-format">
                         <h3>MP4</h3>
                         <p><strong>Ideal para:</strong> web y dispositivos móviles</p>
                         <div class="pros-cons">
@@ -451,9 +569,9 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card video-format">
                         <h3>MOV</h3>
-                        <p><strong>Ideal para:</strong> edición profesional (especialmente Mac)</p>
+                        <p><strong>Ideal para:</strong> edición profesional (especialmente en Mac)</p>
                         <div class="pros-cons">
                             <div class="pros">
                                 <strong>Ventajas</strong>
@@ -472,7 +590,7 @@
                         </div>
                     </div>
                     
-                    <div class="format-card">
+                    <div class="format-card video-format">
                         <h3>AVI</h3>
                         <p><strong>Ideal para:</strong> almacenar video sin mucha compresión</p>
                         <div class="pros-cons">
@@ -491,14 +609,14 @@
                         </div>
                     </div>
 
-                    <div class="format-card">
+                    <div class="format-card video-format">
                         <h3>MKV</h3>
-                        <p><strong>Ideal para:</strong> videos HD con múltiples pistas</p>
+                        <p><strong>Ideal para:</strong> videos de alta definición con múltiples pistas</p>
                         <div class="pros-cons">
                             <div class="pros">
                                 <strong>Ventajas</strong>
                                 <ul>
-                                    <li>Soporta muchas pistas</li>
+                                    <li>Soporta muchas pistas de audio/subtítulos</li>
                                     <li>Ideal para películas</li>
                                 </ul>
                             </div>
